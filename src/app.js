@@ -9,6 +9,8 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(express.urlencoded({ extended: true }));
+
 const accountData = fs.readFileSync("src/json/accounts.json", "UTF8");
 const accounts = JSON.parse(accountData);
 const userData = fs.readFileSync("src/json/users.json", "UTF8");
@@ -31,6 +33,10 @@ app.get("/transfer", (req, res) => {
 });
 app.get("/profile", (req, res) => {
   res.render("profile", { user: users[0] });
+});
+
+app.post("/transfer", (req, res) => {
+  res.render("balance", { account: accounts["savings"].balance });
 });
 
 app.listen(3000, () => {
